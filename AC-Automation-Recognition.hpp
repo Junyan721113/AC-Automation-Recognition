@@ -9,6 +9,10 @@
 #include <string>
 #include <array>
 
+#ifdef _WIN32
+using popen=_popen;
+#endif    
+
 class AC_Automation
 {
 public:
@@ -44,7 +48,7 @@ public:
 
     void readwords(std::string in_file, Read_Mode Mode) {
         FILE* inFileStream;
-        if (Mode == ReadConsoleMode) inFileStream = _popen(in_file.c_str(), "r");
+        if (Mode == ReadConsoleMode) inFileStream = popen(in_file.c_str(), "r");
         else inFileStream = fopen(in_file.c_str(), "r");
         printf("Loading keywords in %s...", &in_file[0]);
         char* p;
@@ -98,7 +102,7 @@ public:
     void query(std::string in_file, std::string out_file, Read_Mode Mode) {
         printf("Extracting keywords...");
         FILE* inFileStream;
-        if (Mode == ReadConsoleMode) inFileStream = _popen(in_file.c_str(), "r");
+        if (Mode == ReadConsoleMode) inFileStream = popen(in_file.c_str(), "r");
         else inFileStream = fopen(in_file.c_str(), "r");
         FILE* outFileStream = fopen(out_file.c_str(), "w");
         //freopen(o, "w", stdout);
